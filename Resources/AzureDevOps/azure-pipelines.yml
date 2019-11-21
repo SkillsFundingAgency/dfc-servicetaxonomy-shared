@@ -1,0 +1,31 @@
+variables:
+  - name: ArmTemplateRoot
+    value: '$(Build.SourcesDirectory)\Resources\ArmTemplates' 
+  - group: dfc-shared-dev
+  - group: KeyVault - dfc-dev-shared-kv
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.6.12
+    endpoint: 'GitHub (ESFA)'
+
+pr:
+  branches:
+    include:
+    - master
+
+jobs:
+
+- job: BuildAndTestArmTemplate
+  displayName: 'Build and Test Arm Template'
+  pool:
+    name: 'NCS CI and CD'
+
+  steps:
+  - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+    parameters:
+      ArmTemplateRoot: $(ArmTemplateRoot)
