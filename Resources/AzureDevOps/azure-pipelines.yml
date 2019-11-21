@@ -1,8 +1,6 @@
 variables:
   - name: ArmTemplateRoot
     value: '$(Build.SourcesDirectory)\Resources\ArmTemplates' 
-  - group: dfc-shared-dev
-  - group: KeyVault - dfc-dev-shared-kv
 
 resources:
   repositories:
@@ -20,12 +18,6 @@ pr:
 
 jobs:
 
-- job: BuildAndTestArmTemplate
-  displayName: 'Build and Test Arm Template'
-  pool:
-    name: 'NCS CI and CD'
-
-  steps:
   - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
     parameters:
       ArmTemplateRoot: $(ArmTemplateRoot)
