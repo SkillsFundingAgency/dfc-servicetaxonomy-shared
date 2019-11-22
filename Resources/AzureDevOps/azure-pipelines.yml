@@ -43,5 +43,5 @@ stages:
       EnvironmentTag: $(EnvironmentTag)
       ParentBusinessTag: $(ParentBusinessTag)
       ResourceGroup: $(StaxSharedResourceGroup)
-      ServiceOfferingTag: $(variables.ServiceOfferingTag)
+      ServiceOfferingTag: $(ServiceOfferingTag)
         
