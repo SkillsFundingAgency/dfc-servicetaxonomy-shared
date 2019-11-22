@@ -1,0 +1,25 @@
+parameters:
+  AzureSubscription: ''
+  Environment: ''
+  EnvironmentTag: ''
+  ParentBusinessTag: ''
+  ResourceGroup: ''
+  ServiceOfferingTag: ''
+
+jobs:
+- deployment: DeployTo${{ parameters.Environment }}
+  pool:
+    name: 'NCS - CI and CD'
+  environment: ${{ parameters.Environment }}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: AzureDevOpsTemplates/Deploy/StepTemplates/dfc-arm-deploy.yml@dfc-devops
+          parameters:
+            ArmTemplateRoot: '$(Pipeline.Workspace)/Dfc.ServiceTaxonomy.Shared.Resources.ArmTemplates'
+            AzureSubscription: ${{ parameters.AzureSubscription }}
+            EnvironmentTag: ${{ parameters.EnvironmentTag }}
+            ParentBusinessTag: ${{ parameters.ParentBusinessTag }}
+            ResourceGroup: ${{ parameters.ResourceGroup }}
+            ServiceOfferingTag: ${{ parameters.ServiceOfferingTag }}
