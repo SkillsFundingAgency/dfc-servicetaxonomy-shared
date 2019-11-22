@@ -1,0 +1,47 @@
+variables:
+  ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
+  SolutionBaseName: Dfc.ServiceTaxonomy.Shared
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.7.3
+    endpoint: 'GitHub (ESFA)'
+
+pr:
+  branches:
+    include:
+    - master
+
+stages:
+- stage: Build
+  jobs:
+  - job: TestAndPublish
+    pool:
+      name: 'NCS - CI and CD'
+    steps:
+    - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-arm-build.yml@dfc-devops
+      parameters:
+        ArmTemplateRoot: $(ArmTemplateRoot)
+        SolutionBaseName: $(SolutionBaseName)
+        PublishPipelineArtifact: true
+
+- stage: DeployToDev
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-dev
+  - group: dfc-stax-shared-dev
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      Environment: DEV_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+        
