@@ -40,8 +40,8 @@ stages:
     parameters:
       AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
       Environment: DEV_SERVICETAXONOMY
-      EnvironmentTag: ${{ variables.EnvironmentTag }}
-      ParentBusinessTag: ${{ variables.ParentBusinessTag }}
-      ResourceGroup: ${{ variables.StaxSharedResourceGroup }}
-      ServiceOfferingTag: ${{ variables.ServiceOfferingTag }}
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusinessTag)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(variables.ServiceOfferingTag)
         
