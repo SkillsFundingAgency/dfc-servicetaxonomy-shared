@@ -4,6 +4,21 @@
     "parameters": {
         "environment": {
             "value": "__AzureEnvironmentName__"
+        },
+        "aseHostingEnvironmentName": {
+            "value": "__AseServiceName__"
+        },
+        "aseResourceGroup": {
+            "value": "__aseResourceGroup__"
+        },
+        "aspInstances": {
+            "value": __AspInstances__
+        },
+        "aspSize": {
+            "value": "__AspSize__"
+        },
+        "aspTier": {
+            "value": "__AspTier__"
         }
     }
 }
