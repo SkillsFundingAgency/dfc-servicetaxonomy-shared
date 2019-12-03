@@ -4,6 +4,15 @@
     "parameters": {
         "environment": {
             "value": "FOO"
+        },
+        "aspInstances": {
+            "value": 2
+        },
+        "aspSize": {
+            "value": "1"
+        },
+        "aspTier": {
+            "value": "Standard"
         }
     }
 }
