@@ -44,4 +44,20 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+
+- stage: DeployToSit
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-sit
+  - group: dfc-stax-shared-sit
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      Environment: SIT_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
         
