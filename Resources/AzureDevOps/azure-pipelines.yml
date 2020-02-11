@@ -37,6 +37,7 @@ stages:
   - group: dfc-stax-shared-dev
   jobs:
   - template: JobTemplates\Deploy.yml
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     parameters:
       AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
       Environment: DEV_SERVICETAXONOMY
@@ -46,6 +47,7 @@ stages:
       ServiceOfferingTag: $(ServiceOffering)
 
 - stage: DeployToSit
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
   - group: dfc-shared-all
   - group: dfc-stax-shared-all
@@ -62,6 +64,7 @@ stages:
       ServiceOfferingTag: $(ServiceOffering)
 
 - stage: DeployToPP
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
   - group: dfc-shared-all
   - group: dfc-stax-shared-all
