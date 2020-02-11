@@ -30,6 +30,7 @@ stages:
         PublishPipelineArtifact: true
 
 - stage: DeployToDev
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
   - group: dfc-shared-all
   - group: dfc-stax-shared-all
@@ -46,6 +47,7 @@ stages:
       ServiceOfferingTag: $(ServiceOffering)
 
 - stage: DeployToSit
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
   - group: dfc-shared-all
   - group: dfc-stax-shared-all
@@ -60,4 +62,20 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
-        
+
+- stage: DeployToPP
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-pp
+  - group: dfc-stax-shared-pp
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-DIG-PreProd (931bc9f6-359c-4f65-a753-1ee191a1fd6c)'
+      Environment: PP_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
