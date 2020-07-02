@@ -27,6 +27,8 @@
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('environment'), '-stax-shared'))]",
         "storageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr'))]",
+        "draftstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr'))]",
+        "visitstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr'))]",
         "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]"
     },
     "resources": [
@@ -43,6 +45,40 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "staxDraftSharedStorageAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('draftstorageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "staxVisitSharedStorageAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('visitstorageAccountName')]"
                     }
                 }
             }
