@@ -54,7 +54,7 @@
         },
         {
             "condition": "[equals(parameters('environment'),'pp')]",
-            "name": "staxSharedStorageAccount",
+            "name": "staxSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
@@ -89,7 +89,7 @@
         },
         {
             "condition": "[equals(parameters('environment'),'pp')]",
-            "name": "staxDraftSharedStorageAccount",
+            "name": "staxDraftSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
@@ -124,7 +124,7 @@
         },
         {
             "condition": "[equals(parameters('environment'),'pp')]",
-            "name": "staxVisitSharedStorageAccount",
+            "name": "staxVisitSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
