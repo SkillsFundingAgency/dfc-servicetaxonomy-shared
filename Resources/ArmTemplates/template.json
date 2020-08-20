@@ -27,8 +27,11 @@
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('environment'), '-stax-shared'))]",
         "storageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr'))]",
+        "storageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr1'))]",
         "draftstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr'))]",
+        "draftstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr1'))]",
         "visitstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr'))]",
+        "visitstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr1'))]",
         "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]"
     },
     "resources": [
@@ -45,6 +48,24 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('environment'),'pp')]",
+            "name": "staxSharedStorageAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName1')]"
                     }
                 }
             }
@@ -67,6 +88,24 @@
             }
         },
         {
+            "condition": "[equals(parameters('environment'),'pp')]",
+            "name": "staxDraftSharedStorageAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('draftstorageAccountName1')]"
+                    }
+                }
+            }
+        },
+        {
             "name": "staxVisitSharedStorageAccount",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
@@ -79,6 +118,24 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('visitstorageAccountName')]"
+                    }
+                }
+            }
+        },
+        {
+            "condition": "[equals(parameters('environment'),'pp')]",
+            "name": "staxVisitSharedStorageAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageAccountName": {
+                        "value": "[variables('visitstorageAccountName1')]"
                     }
                 }
             }
