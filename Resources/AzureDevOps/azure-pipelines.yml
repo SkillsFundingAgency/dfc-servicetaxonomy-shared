@@ -29,56 +29,56 @@ stages:
         SolutionBaseName: $(SolutionBaseName)
         PublishPipelineArtifact: true
 
-- stage: DeployToDev
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  variables:
-  - group: dfc-shared-all
-  - group: dfc-stax-shared-all
-  - group: dfc-shared-dev
-  - group: dfc-stax-shared-dev
-  jobs:
-  - template: JobTemplates\Deploy.yml
-    parameters:
-      AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
-      Environment: DEV_SERVICETAXONOMY
-      EnvironmentTag: $(EnvironmentTag)
-      ParentBusinessTag: $(ParentBusiness)
-      ResourceGroup: $(StaxSharedResourceGroup)
-      ServiceOfferingTag: $(ServiceOffering)
+#- stage: DeployToDev
+  #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  #variables:
+  #- group: dfc-shared-all
+  #- group: dfc-stax-shared-all
+  #- group: dfc-shared-dev
+  #- group: dfc-stax-shared-dev
+  #jobs:
+  #- template: JobTemplates\Deploy.yml
+    #parameters:
+      #AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      #Environment: DEV_SERVICETAXONOMY
+      #EnvironmentTag: $(EnvironmentTag)
+      #ParentBusinessTag: $(ParentBusiness)
+      #ResourceGroup: $(StaxSharedResourceGroup)
+      #ServiceOfferingTag: $(ServiceOffering)
 
-- stage: DeployToSit
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  variables:
-  - group: dfc-shared-all
-  - group: dfc-stax-shared-all
-  - group: dfc-shared-sit
-  - group: dfc-stax-shared-sit
-  jobs:
-  - template: JobTemplates\Deploy.yml
-    parameters:
-      AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
-      Environment: SIT_SERVICETAXONOMY
-      EnvironmentTag: $(EnvironmentTag)
-      ParentBusinessTag: $(ParentBusiness)
-      ResourceGroup: $(StaxSharedResourceGroup)
-      ServiceOfferingTag: $(ServiceOffering)
+#- stage: DeployToSit
+  #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  #variables:
+  #- group: dfc-shared-all
+  #- group: dfc-stax-shared-all
+  #- group: dfc-shared-sit
+  #- group: dfc-stax-shared-sit
+  #jobs:
+  #- template: JobTemplates\Deploy.yml
+    #parameters:
+      #AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      #Environment: SIT_SERVICETAXONOMY
+      #EnvironmentTag: $(EnvironmentTag)
+      #ParentBusinessTag: $(ParentBusiness)
+      #ResourceGroup: $(StaxSharedResourceGroup)
+      #ServiceOfferingTag: $(ServiceOffering)
 
-- stage: DeployToPP
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  variables:
-  - group: dfc-shared-all
-  - group: dfc-stax-shared-all
-  - group: dfc-shared-pp
-  - group: dfc-stax-shared-pp
-  jobs:
-  - template: JobTemplates\Deploy.yml
-    parameters:
-      AzureSubscription: 'SFA-DIG-PreProd (931bc9f6-359c-4f65-a753-1ee191a1fd6c)'
-      Environment: PP_SERVICETAXONOMY
-      EnvironmentTag: $(EnvironmentTag)
-      ParentBusinessTag: $(ParentBusiness)
-      ResourceGroup: $(StaxSharedResourceGroup)
-      ServiceOfferingTag: $(ServiceOffering)
+#- stage: DeployToPP
+  #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  #variables:
+  #- group: dfc-shared-all
+  #- group: dfc-stax-shared-all
+  #- group: dfc-shared-pp
+  #- group: dfc-stax-shared-pp
+  #jobs:
+  #- template: JobTemplates\Deploy.yml
+    #parameters:
+      #AzureSubscription: 'SFA-DIG-PreProd (931bc9f6-359c-4f65-a753-1ee191a1fd6c)'
+      #Environment: PP_SERVICETAXONOMY
+      #EnvironmentTag: $(EnvironmentTag)
+      #ParentBusinessTag: $(ParentBusiness)
+      #ResourceGroup: $(StaxSharedResourceGroup)
+      #ServiceOfferingTag: $(ServiceOffering)
 
 - stage: DeployToPrd
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
