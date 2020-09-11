@@ -11,6 +11,11 @@ resources:
     ref: refs/tags/v1.7.3
     endpoint: 'GitHub (ESFA)'
 
+trigger: 
+  branches:
+    include: 
+    - master
+
 pr:
   branches:
     include:
@@ -75,6 +80,23 @@ stages:
     parameters:
       AzureSubscription: 'SFA-DIG-PreProd (931bc9f6-359c-4f65-a753-1ee191a1fd6c)'
       Environment: PP_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+
+- stage: DeployToPrd
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-prd
+  - group: dfc-stax-shared-prd
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-DIG-Prod (6c93f7dc-6c36-4ea6-8de3-3f4574f88027)'
+      Environment: PRD_SERVICETAXONOMY
       EnvironmentTag: $(EnvironmentTag)
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
