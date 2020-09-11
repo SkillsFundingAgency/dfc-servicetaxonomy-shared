@@ -79,3 +79,20 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+
+- stage: DeployToPrd
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-prd
+  - group: dfc-stax-shared-prd
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-DIG-Prod (6c93f7dc-6c36-4ea6-8de3-3f4574f88027)'
+      Environment: PRD_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
