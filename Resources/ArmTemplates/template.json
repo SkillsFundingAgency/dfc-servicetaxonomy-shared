@@ -24,7 +24,6 @@
         }
     },
     "variables": {
-        "productionEnvironment": "[or(equals(parameters('environment'), 'PP'), equals(parameters('Environment'), 'PRD'))]",
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('environment'), '-stax-shared'))]",
         "storageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr'))]",
@@ -54,7 +53,7 @@
             }
         },
         {
-            "condition": "[or(equals(parameters('environment'), 'pp'), equals(parameters('Environment'), 'prd'))]",
+            "condition": "[equals(parameters('environment'),'pp''prd')]",
             "name": "staxSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
@@ -89,7 +88,7 @@
             }
         },
         {
-            "condition": "[or(equals(parameters('environment'), 'pp'), equals(parameters('Environment'), 'prd'))]",
+            "condition": "[equals(parameters('environment'),'pp''prd')]",
             "name": "staxDraftSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
@@ -124,7 +123,7 @@
             }
         },
         {
-            "condition": "[or(equals(parameters('environment'), 'pp'), equals(parameters('Environment'), 'prd'))]",
+            "condition": "[equals(parameters('environment'),'pp''prd')]",
             "name": "staxVisitSharedStorageAccount1",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
