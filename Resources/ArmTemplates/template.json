@@ -29,9 +29,9 @@
         "storageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr'))]",
         "storageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr1'))]",
         "draftstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr'))]",
-        "draftstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr1'))]",
+        "draftstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedst1'))]",
         "visitstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr'))]",
-        "visitstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr1'))]",
+        "visitstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedst1'))]",
         "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]"
     },
     "resources": [
