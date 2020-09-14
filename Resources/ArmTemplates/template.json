@@ -13,6 +13,12 @@
             "type": "string",
             "defaultValue": ""
         },
+        "draftstorageAccountName1": {
+            "type": "string"
+        },
+        "visitstorageAccountName1": {
+            "type": "string"
+        },
         "aspInstances": {
             "type": "int"
         },
@@ -29,9 +35,7 @@
         "storageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr'))]",
         "storageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr1'))]",
         "draftstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr'))]",
-        "draftstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedst1'))]",
         "visitstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr'))]",
-        "visitstorageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedst1'))]",
         "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]"
     },
     "resources": [
@@ -100,7 +104,7 @@
                 },
                 "parameters": {
                     "storageAccountName": {
-                        "value": "[variables('draftstorageAccountName1')]"
+                        "value": "[parameters('draftstorageAccountName1')]"
                     }
                 }
             }
@@ -135,7 +139,7 @@
                 },
                 "parameters": {
                     "storageAccountName": {
-                        "value": "[variables('visitstorageAccountName1')]"
+                        "value": "[parameters('visitstorageAccountName1')]"
                     }
                 }
             }

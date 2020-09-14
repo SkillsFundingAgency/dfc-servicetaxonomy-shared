@@ -5,6 +5,12 @@
         "environment": {
             "value": "__AzureEnvironmentName__"
         },
+        "draftstorageAccountName1": {
+            "value": "__StaxDraftStorageAccountName1__"
+        },
+        "visitstorageAccountName1": {
+            "value": "__StaxVisitStorageAccountName1__"
+        },
         "aseHostingEnvironmentName": {
             "value": "__AseServiceName__"
         },
