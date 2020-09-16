@@ -11,6 +11,11 @@ resources:
     ref: refs/tags/v1.7.3
     endpoint: 'GitHub (ESFA)'
 
+trigger: 
+  branches:
+    include: 
+    - master
+
 pr:
   branches:
     include:
@@ -96,3 +101,4 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+
