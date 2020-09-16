@@ -5,6 +5,12 @@
         "environment": {
             "value": "FOO"
         },
+        "draftstorageAccountName1": {
+            "value": "dfcdevstaxdraftsharedstr1"
+        },
+        "visitstorageAccountName1": {
+            "value": "dfcdevstaxvisitsharedstr1"
+        },
         "aspInstances": {
             "value": 1
         },
