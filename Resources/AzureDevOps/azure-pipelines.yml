@@ -1,7 +1,6 @@
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   SolutionBaseName: Dfc.ServiceTaxonomy.Shared
-  AspInstances: 1
 
 resources:
   repositories:
@@ -42,6 +41,8 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-dev
   - group: dfc-stax-shared-dev
+  - name: AspInstances
+    value: 1
   jobs:
   - template: JobTemplates\Deploy.yml
     parameters:
