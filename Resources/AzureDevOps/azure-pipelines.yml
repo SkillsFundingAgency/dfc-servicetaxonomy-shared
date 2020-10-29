@@ -1,6 +1,7 @@
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   SolutionBaseName: Dfc.ServiceTaxonomy.Shared
+  AspInstances: 1
 
 resources:
   repositories:
