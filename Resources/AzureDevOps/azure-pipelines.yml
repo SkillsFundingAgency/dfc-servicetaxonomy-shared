@@ -41,6 +41,8 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-dev
   - group: dfc-stax-shared-dev
+  - name: AspInstances
+    value: 1
   jobs:
   - template: JobTemplates\Deploy.yml
     parameters:
@@ -58,6 +60,8 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-sit
   - group: dfc-stax-shared-sit
+  - name: AspInstances
+    value: 1
   jobs:
   - template: JobTemplates\Deploy.yml
     parameters:
@@ -75,6 +79,8 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-pp
   - group: dfc-stax-shared-pp
+  - name: AspInstances
+    value: 1
   jobs:
   - template: JobTemplates\Deploy.yml
     parameters:
@@ -92,6 +98,8 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-prd
   - group: dfc-stax-shared-prd
+  - name: AspInstances
+    value: 1
   jobs:
   - template: JobTemplates\Deploy.yml
     parameters:
