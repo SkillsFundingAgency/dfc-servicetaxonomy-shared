@@ -24,6 +24,8 @@ jobs:
             ResourceGroup: ${{ parameters.ResourceGroup }}
             ServiceOfferingTag: ${{ parameters.ServiceOfferingTag }}
 - job: DeployMonitor
+  dependsOn: 
+  - DeployTo${{ parameters.Environment }}
   pool:
     name: 'NCS - CI and CD'
   steps:
@@ -36,6 +38,5 @@ jobs:
       runVersion: 'latestFromBranch'
       runBranch: 'refs/heads/master'
       artifactName: 'DFC.AzureMonitorToSlack'
-      itemPattern: '*.zip'
       buildid: 242189
 
