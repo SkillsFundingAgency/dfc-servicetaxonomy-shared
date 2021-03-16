@@ -47,6 +47,6 @@ jobs:
       azureSubscription: '${{ parameters.AzureSubscription }}'
       appType: functionApp
       appName: '${{ parameters.AzurePrefix }}-mon-fa'
-      package: '$(Pipeline.Workspace)/Dfc.AzureMonitorToSlack/slack_azure_function.zip'
+      package: '$(Pipeline.Workspace)/slack_azure_function.zip'
 
 
