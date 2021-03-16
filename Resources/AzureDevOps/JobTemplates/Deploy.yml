@@ -28,14 +28,14 @@ jobs:
     name: 'NCS - CI and CD'
   steps:
   - task: DownloadPipelineArtifact@2
-      displayName: Download built distribution
-      inputs:
-        source: 'specific'
-        project: '$(System.TeamProjectId)'
-        pipeline: 288
-        runVersion: 'latestFromBranch'
-        runBranch: 'refs/heads/master'
-        allowPartiallySucceededBuilds: true
-        artifactName: 'DFC.AzureMonitorToSlack'
-        itemPattern: '*.zip'
-        buildid: 242189
+    displayName: Download built distribution
+    inputs:
+      source: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: 1783
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/master'
+      artifactName: 'DFC.AzureMonitorToSlack'
+      itemPattern: '*.zip'
+      buildid: 242189
+
