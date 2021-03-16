@@ -19,6 +19,18 @@
         },
         "aspTier": {
             "value": "Standard"
+        },
+        "slackWebhookToken": {
+            "value": "a-slack-token"
+        },
+        "slackChannelForAlerts": {
+            "value": "alerting-slack-channel"
+        },
+        "emailAddressForAlerts": {
+            "value": "test@test.com"
+        },
+        "enableAlerts": {
+            "value": false
         }
     }
 }
