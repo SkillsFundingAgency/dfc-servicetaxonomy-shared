@@ -52,6 +52,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: 'dfc-dev-stax-shared'
 
 - stage: DeployToSit
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -71,6 +72,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: 'dfc-dev-stax-shared'
 
 - stage: DeployToPP
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -90,6 +92,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: 'dfc-dev-stax-shared'
 
 - stage: DeployToPrd
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -109,4 +112,5 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: 'dfc-dev-stax-shared'
 

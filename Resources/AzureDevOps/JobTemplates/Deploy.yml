@@ -5,6 +5,7 @@ parameters:
   ParentBusinessTag: ''
   ResourceGroup: ''
   ServiceOfferingTag: ''
+  AzurePrefix: ''
 
 jobs:
 - deployment: DeployTo${{ parameters.Environment }}
@@ -39,4 +40,13 @@ jobs:
       runBranch: 'refs/heads/master'
       artifactName: 'DFC.AzureMonitorToSlack'
       buildid: 242189
+      path: '$(Pipeline.Workspace)' 
+  - task: AzureFunctionApp@1
+    displayName: 'Azure Function App Deploy: $(AzurePrefix)-mon-fa'
+    inputs:
+      azureSubscription: '${{ parameters.AzureSubscription }}'
+      appType: functionApp
+      appName: '$(AzurePrefix)-mon-fa'
+      package: '$(Pipeline.Workspace)/Dfc.AzureMonitorToSlack/slack_azure_function.zip'
+
 
