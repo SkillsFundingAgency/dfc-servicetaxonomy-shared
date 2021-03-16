@@ -42,11 +42,11 @@ jobs:
       buildid: 242189
       path: '$(Pipeline.Workspace)' 
   - task: AzureFunctionApp@1
-    displayName: 'Azure Function App Deploy: $(AzurePrefix)-mon-fa'
+    displayName: 'Azure Function App Deploy: ${{ parameters.AzurePrefix }}-mon-fa'
     inputs:
       azureSubscription: '${{ parameters.AzureSubscription }}'
       appType: functionApp
-      appName: '$(AzurePrefix)-mon-fa'
+      appName: '${{ parameters.AzurePrefix }}-mon-fa'
       package: '$(Pipeline.Workspace)/Dfc.AzureMonitorToSlack/slack_azure_function.zip'
 
 
