@@ -31,6 +31,12 @@
         },
         "enableAlerts": {
             "value": false
+        },
+        "CPUPercentageThreshold": {
+            "value": "0"
+        },
+        "MemoryPercentageThreshold": {
+            "value": "0"
         }
     }
 }
