@@ -438,7 +438,7 @@
                         {
                             "criterionType": "DynamicThresholdCriterion",
                             "name": "1st criterion",
-                            "metricName": "Percentage CPU",
+                            "metricName": "MemoryPercentage",
                             "dimensions": [],
                             "operator": "GreaterOrLessThan",
                             "alertSensitivity": "High",
