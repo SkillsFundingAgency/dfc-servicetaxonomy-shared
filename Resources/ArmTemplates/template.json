@@ -418,6 +418,84 @@
                     }
                 }
             }
+        },
+        {
+            "name":  "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
+            "type": "Microsoft.Insights/metricAlerts",
+            "location": "global",
+            "apiVersion": "2018-03-01",
+            "tags": {},
+            "properties": {
+                "description": "test alert",
+                "severity": 1,
+                "enabled": true,
+                "scopes": [ "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]" ],
+                "evaluationFrequency": "PT5M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+                    "allOf": [
+                        {
+                            "criterionType": "DynamicThresholdCriterion",
+                            "name": "1st criterion",
+                            "metricName": "MemoryPercentage",
+                            "dimensions": [],
+                            "operator": "GreaterOrLessThan",
+                            "alertSensitivity": "High",
+                            "failingPeriods": {
+                                "numberOfEvaluationPeriods": "4",
+                                "minFailingPeriodsToAlert": "3"
+                            },
+                            "ignoreDataBefore": "",
+                            "timeAggregation": "Average"
+                        }
+                    ]
+                },
+                "actions": [
+                    {
+                        "actionGroupId": "[resourceId(variables('resourceGroup'), 'microsoft.insights/actionGroups', variables('ActionGroupName'))]"
+                    }
+                ]
+            }
+        },
+        {
+            "name":  "[concat(variables('AppServicePlanName'), '-CPUPercentage')]",
+            "type": "Microsoft.Insights/metricAlerts",
+            "location": "global",
+            "apiVersion": "2018-03-01",
+            "tags": {},
+            "properties": {
+                "description": "test alert",
+                "severity": 1,
+                "enabled": true,
+                "scopes": [ "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]" ],
+                "evaluationFrequency": "PT5M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+                    "allOf": [
+                        {
+                            "criterionType": "DynamicThresholdCriterion",
+                            "name": "1st criterion",
+                            "metricName": "CPUPercentage",
+                            "dimensions": [],
+                            "operator": "GreaterOrLessThan",
+                            "alertSensitivity": "High",
+                            "failingPeriods": {
+                                "numberOfEvaluationPeriods": "4",
+                                "minFailingPeriodsToAlert": "3"
+                            },
+                            "ignoreDataBefore": "",
+                            "timeAggregation": "Average"
+                        }
+                    ]
+                },
+                "actions": [
+                    {
+                        "actionGroupId": "[resourceId(variables('resourceGroup'), 'microsoft.insights/actionGroups', variables('ActionGroupName'))]"
+                    }
+                ]
+            }
         }
 
     ]
