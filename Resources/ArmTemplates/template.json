@@ -343,19 +343,22 @@
                         "value": "CpuPercentage"
                     },
                     "operator": {
-                        "value": "GreaterThanOrEqual"
+                        "value": "GreaterOrLessThan"
                     },
-                    "threshold": {
-                        "value": "[parameters('CPUPercentageThreshold')]"
+                    "alertSensitivity": {
+                        "value": "Medium"
                     },
-                    "aggregation": {
+                    "numberOfEvaluationPeriods": {
+                        "value": "4"
+                    },
+                    "minFailingPeriodsToAlert": {
+                        "value": "3"
+                    },
+                    "ignoreDataBefore": {
+                        "value": ""
+                    },
+                    "timeAggregation": {
                         "value": "Average"
-                    },
-                    "windowSize": {
-                        "value": "PT5M"
-                    },
-                    "evaluationFrequency": {
-                        "value": "PT1M"
                     },
                     "actionGroupName": {
                         "value": "[variables('ActionGroupName')]"
