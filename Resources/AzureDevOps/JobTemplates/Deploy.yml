@@ -35,11 +35,15 @@ jobs:
     inputs:
       source: 'specific'
       project: '$(System.TeamProjectId)'
+      # this is the dfc-azure-monitor-to-slack pipeline
       pipeline: 1783
+      # ############
       runVersion: 'latestFromBranch'
       runBranch: 'refs/heads/master'
       artifactName: 'DFC.AzureMonitorToSlack'
+      # this is the last successful build of the dfc-azure-monitor-to-slack pipeline
       buildid: 242189
+      # you will need to update this buildId with any new build of dfc-azure-monitor-to-slack that you want picked up
       path: '$(Pipeline.Workspace)' 
   - task: AzureFunctionApp@1
     displayName: 'Azure Function App Deploy: ${{ parameters.AzurePrefix }}-mon-fa'
