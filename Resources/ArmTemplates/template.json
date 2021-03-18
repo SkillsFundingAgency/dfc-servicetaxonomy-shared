@@ -343,63 +343,10 @@
                         "value": "CpuPercentage"
                     },
                     "operator": {
-                        "value": "GreaterOrLessThan"
-                    },
-                    "alertSensitivity": {
-                        "value": "Medium"
-                    },
-                    "numberOfEvaluationPeriods": {
-                        "value": "4"
-                    },
-                    "minFailingPeriodsToAlert": {
-                        "value": "3"
-                    },
-                    "ignoreDataBefore": {
-                        "value": ""
-                    },
-                    "timeAggregation": {
-                        "value": "Average"
-                    },
-                    "actionGroupName": {
-                        "value": "[variables('ActionGroupName')]"
-                    },
-                    "actionGroupResourceGroup": {
-                        "value": "[variables('resourceGroup')]"
-                    },
-                    "resourceId": {
-                        "value": "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]"
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2019-05-01",
-            "name": "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "enabled": {
-                        "value": "[parameters('enableAlerts')]"
-                    },
-                    "alertName": {
-                        "value": "[concat(variables('AppServicePlanName'), '-metric-MemoryPercentage')]"
-                    },
-                    "alertSeverity": {
-                        "value": 3
-                    },
-                    "metricName": {
-                        "value": "MemoryPercentage"
-                    },
-                    "operator": {
                         "value": "GreaterThanOrEqual"
                     },
                     "threshold": {
-                        "value": "[parameters('MemoryPercentageThreshold')]"
+                        "value": "[parameters('CPUPercentageThreshold')]"
                     },
                     "aggregation": {
                         "value": "Average"
@@ -420,6 +367,95 @@
                         "value": "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]"
                     }
                 }
+            }
+        },
+        // {
+        //     "apiVersion": "2019-05-01",
+        //     "name": "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "enabled": {
+        //                 "value": "[parameters('enableAlerts')]"
+        //             },
+        //             "alertName": {
+        //                 "value": "[concat(variables('AppServicePlanName'), '-metric-MemoryPercentage')]"
+        //             },
+        //             "alertSeverity": {
+        //                 "value": 3
+        //             },
+        //             "metricName": {
+        //                 "value": "MemoryPercentage"
+        //             },
+        //             "operator": {
+        //                 "value": "GreaterThanOrEqual"
+        //             },
+        //             "threshold": {
+        //                 "value": "[parameters('MemoryPercentageThreshold')]"
+        //             },
+        //             "aggregation": {
+        //                 "value": "Average"
+        //             },
+        //             "windowSize": {
+        //                 "value": "PT5M"
+        //             },
+        //             "evaluationFrequency": {
+        //                 "value": "PT1M"
+        //             },
+        //             "actionGroupName": {
+        //                 "value": "[variables('ActionGroupName')]"
+        //             },
+        //             "actionGroupResourceGroup": {
+        //                 "value": "[variables('resourceGroup')]"
+        //             },
+        //             "resourceId": {
+        //                 "value": "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]"
+        //             }
+        //         }
+        //     }
+        // },
+        {
+            "name":  "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
+            "type": "Microsoft.Insights/metricAlerts",
+            "location": "global",
+            "apiVersion": "2018-03-01",
+            "tags": {},
+            "properties": {
+                "description": "test alert",
+                "severity": 1,
+                "enabled": true,
+                "scopes": [ "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]" ],
+                "evaluationFrequency": "PT5M",
+                "windowSize": "PT5M",
+                "criteria": {
+                    "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+                    "allOf": [
+                        {
+                            "criterionType": "DynamicThresholdCriterion",
+                            "name": "1st criterion",
+                            "metricName": "test dynamic alert",
+                            "dimensions": [],
+                            "operator": "GreaterOrLessThan",
+                            "alertSensitivity": "High",
+                            "failingPeriods": {
+                                "numberOfEvaluationPeriods": "4",
+                                "minFailingPeriodsToAlert": "3"
+                            },
+                            "ignoreDataBefore": "",
+                            "timeAggregation": "Average"
+                        }
+                    ]
+                },
+                "actions": [
+                    {
+                        "actionGroupId": "[resourceId(variables('resourceGroup'), 'microsoft.insights/actionGroups', variables('ActionGroupName'))]"
+                    }
+                ]
             }
         }
 
