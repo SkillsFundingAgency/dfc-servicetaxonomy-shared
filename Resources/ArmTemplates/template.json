@@ -438,7 +438,7 @@
                         {
                             "criterionType": "DynamicThresholdCriterion",
                             "name": "1st criterion",
-                            "metricName": "test dynamic alert",
+                            "metricName": "Percentage CPU",
                             "dimensions": [],
                             "operator": "GreaterOrLessThan",
                             "alertSensitivity": "High",
