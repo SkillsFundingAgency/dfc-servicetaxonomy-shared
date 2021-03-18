@@ -41,6 +41,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-dev
   - group: dfc-stax-shared-dev
+  - template: VariableTemplates/DevEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -61,6 +62,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-sit
   - group: dfc-stax-shared-sit
+  - template: VariableTemplates/SitEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -81,6 +83,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-pp
   - group: dfc-stax-shared-pp
+  - template: VariableTemplates/PPEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -101,6 +104,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-prd
   - group: dfc-stax-shared-prd
+  - template: VariableTemplates/PRDEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
