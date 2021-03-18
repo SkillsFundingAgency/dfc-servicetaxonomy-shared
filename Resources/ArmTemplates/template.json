@@ -27,6 +27,37 @@
         },
         "aspTier": {
             "type": "string"
+        },
+        "slackWebHookToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "the token (everything after https://hooks.slack.com/services/) for an incoming webhook in slack"
+            }
+        },
+        "slackChannelForAlerts": {
+            "type": "string",
+            "metadata": {
+                "description": "The slack channel to send alerts to"
+            }
+        },
+        "emailAddressForAlerts": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "An email address to send alerts to"
+            }
+        },
+        "enableAlerts": {
+            "type": "bool",
+            "metadata": {
+                "description": "Enable or disable alerting"
+            }
+        },
+        "CPUPercentageThreshold": {
+            "type": "string"
+        },
+        "MemoryPercentageThreshold": {
+            "type": "string"
         }
     },
     "variables": {
@@ -36,9 +67,121 @@
         "storageAccountName1": "[tolower(concat('dfc', parameters('environment'), 'staxsharedstr1'))]",
         "draftstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxdraftsharedstr'))]",
         "visitstorageAccountName": "[tolower(concat('dfc', parameters('environment'), 'staxvisitsharedstr'))]",
-        "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]"
+        "appServicePlanName": "[concat(variables('ResourcePrefix'), '-asp')]",
+        "MonitoringAppServicePlanName": "[concat(variables('ResourcePrefix'), '-mon-asp')]",
+        "MonitoringAppInsightsName": "[concat(variables('ResourcePrefix'), '-mon-ai')]",
+        "MonitoringFunctionAppName": "[concat(variables('ResourcePrefix'), '-mon-fa')]",
+        "ActionGroupName": "[concat(variables('ResourcePrefix'), '-actgrp')]",
+        "resourceGroup": "[concat(variables('resourcePrefix'),'-rg')]",
+        "BuildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/"
     },
     "resources": [
+        {
+            "name": "[variables('MonitoringAppServicePlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-02-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('MonitoringAppServicePlanName')]",
+                "computeMode": "Dynamic"
+            },
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic"
+            }
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('MonitoringAppInsightsName')]",
+            "type": "Microsoft.Insights/components",
+            "location": "[resourceGroup().location]",
+            "kind": "web",
+            "tags": {
+                "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('MonitoringAppInsightsName')))]": "Resource"
+            },
+            "properties": {
+                "Application_Type": "web"
+            }
+        },
+        {
+            "name": "[variables('MonitoringFunctionAppName')]",
+            "apiVersion": "2018-11-01",
+            "type": "Microsoft.Web/sites",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp",
+            "dependsOn": [
+                "[variables('MonitoringAppServicePlanName')]",
+                "[variables('MonitoringAppInsightsName')]"
+            ],
+            "properties": {
+                "httpsOnly": true,
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('microsoft.insights/components/', variables('MonitoringAppInsightsName'))).InstrumentationKey]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[reference('staxSharedStorageAccount').outputs.storageConnectionString.value]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                            "value": "[reference('staxSharedStorageAccount').outputs.storageConnectionString.value]"
+                        },
+                        {
+                            "name": "WEBSITE_CONTENTSHARE",
+                            "value": "[variables('MonitoringFunctionAppName')]"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "powershell"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~3"
+                        },
+                        {
+                            "name": "SlackToken",
+                            "value": "[parameters('slackWebHookToken')]"
+                        },
+                        {
+                            "name": "MSDEPLOY_RENAME_LOCKED_FILES",
+                            "value": "1"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "[variables('ActionGroupName')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/action-groups.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "enabled": {
+                        "value": "[parameters('enableAlerts')]"
+                    },
+                    "webHookUrl": {
+                        "value": "[concat('https://', variables('MonitoringFunctionAppName'), '.azurewebsites.net/api/MonitorAlert?code=', listkeys(concat(resourceId('Microsoft.Web/sites', variables('MonitoringFunctionAppName')), '/host/default'), '2018-11-01').functionKeys.default, '&channel=', parameters('slackChannelForAlerts'))]"
+                    },
+                    "emailAddress": {
+                        "value": "[parameters('emailAddressForAlerts')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('MonitoringFunctionAppName')]"
+            ]
+        },
         {
             "name": "staxSharedStorageAccount",
             "type": "Microsoft.Resources/deployments",
@@ -175,6 +318,107 @@
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2019-05-01",
+            "name": "[concat(variables('AppServicePlanName'), '-CPUPercentage')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enabled": {
+                        "value": "[parameters('enableAlerts')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServicePlanName'), '-metric-CPUPercentage')]"
+                    },
+                    "alertSeverity": {
+                        "value": 3
+                    },
+                    "metricName": {
+                        "value": "CpuPercentage"
+                    },
+                    "operator": {
+                        "value": "GreaterThanOrEqual"
+                    },
+                    "threshold": {
+                        "value": "[parameters('CPUPercentageThreshold')]"
+                    },
+                    "aggregation": {
+                        "value": "Average"
+                    },
+                    "windowSize": {
+                        "value": "PT5M"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "actionGroupResourceGroup": {
+                        "value": "[variables('resourceGroup')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2019-05-01",
+            "name": "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "enabled": {
+                        "value": "[parameters('enableAlerts')]"
+                    },
+                    "alertName": {
+                        "value": "[concat(variables('AppServicePlanName'), '-metric-MemoryPercentage')]"
+                    },
+                    "alertSeverity": {
+                        "value": 3
+                    },
+                    "metricName": {
+                        "value": "MemoryPercentage"
+                    },
+                    "operator": {
+                        "value": "GreaterThanOrEqual"
+                    },
+                    "threshold": {
+                        "value": "[parameters('MemoryPercentageThreshold')]"
+                    },
+                    "aggregation": {
+                        "value": "Average"
+                    },
+                    "windowSize": {
+                        "value": "PT5M"
+                    },
+                    "evaluationFrequency": {
+                        "value": "PT1M"
+                    },
+                    "actionGroupName": {
+                        "value": "[variables('ActionGroupName')]"
+                    },
+                    "actionGroupResourceGroup": {
+                        "value": "[variables('resourceGroup')]"
+                    },
+                    "resourceId": {
+                        "value": "[resourceId('Microsoft.Web/serverFarms', variables('appServicePlanName'))]"
+                    }
+                }
+            }
         }
+
     ]
 }

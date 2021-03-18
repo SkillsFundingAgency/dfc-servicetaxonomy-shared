@@ -41,6 +41,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-dev
   - group: dfc-stax-shared-dev
+  - template: VariableTemplates/DevEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -52,6 +53,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: $(AzurePrefix)
 
 - stage: DeployToSit
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -60,6 +62,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-sit
   - group: dfc-stax-shared-sit
+  - template: VariableTemplates/SitEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -71,6 +74,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: $(AzurePrefix)
 
 - stage: DeployToPP
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -79,6 +83,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-pp
   - group: dfc-stax-shared-pp
+  - template: VariableTemplates/PPEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -90,6 +95,7 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: $(AzurePrefix)
 
 - stage: DeployToPrd
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -98,6 +104,7 @@ stages:
   - group: dfc-stax-shared-all
   - group: dfc-shared-prd
   - group: dfc-stax-shared-prd
+  - template: VariableTemplates/PRDEnvironmentVariables.yml    
   - name: AspInstances
     value: 1
   jobs:
@@ -109,4 +116,5 @@ stages:
       ParentBusinessTag: $(ParentBusiness)
       ResourceGroup: $(StaxSharedResourceGroup)
       ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: $(AzurePrefix)
 

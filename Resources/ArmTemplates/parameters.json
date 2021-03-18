@@ -25,6 +25,24 @@
         },
         "aspTier": {
             "value": "__AspTier__"
+        },
+        "slackWebhookToken": {
+            "value": "__slackWebhookToken__"
+        },
+        "slackChannelForAlerts": {
+            "value": "__slackChannelForAlerts__"
+        },
+        "emailAddressForAlerts": {
+            "value": "__emailAddressForAlerts__"
+        },
+        "enableAlerts": {
+            "value": __EnableAzureMonitorAlerting__
+        },
+        "CPUPercentageThreshold": {
+            "value": "__CPUPercentageThreshold__"
+        },
+        "MemoryPercentageThreshold": {
+            "value": "__MemoryPercentageThreshold__"
         }
     }
 }

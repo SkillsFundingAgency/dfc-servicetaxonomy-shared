@@ -1,0 +1,9 @@
+variables:
+- name: MemoryPercentageThreshold
+  value: 75
+- name: CPUPercentageThreshold
+  value: 75
+- name: EnableAzureMonitorAlerting
+  value: true
+- name: AzurePrefix
+  value: dfc-dev-stax-shared
