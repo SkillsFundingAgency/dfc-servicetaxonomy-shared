@@ -34,6 +34,27 @@ stages:
         SolutionBaseName: $(SolutionBaseName)
         PublishPipelineArtifact: true
 
+- stage: DeployToLab
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: dfc-shared-all
+  - group: dfc-stax-shared-all
+  - group: dfc-shared-lab
+  - group: dfc-stax-shared-lab
+  - template: VariableTemplates/LabEnvironmentVariables.yml    
+  - name: AspInstances
+    value: 1
+  jobs:
+  - template: JobTemplates\Deploy.yml
+    parameters:
+      AzureSubscription: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      Environment: LAB_SERVICETAXONOMY
+      EnvironmentTag: $(EnvironmentTag)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(StaxSharedResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+      AzurePrefix: $(AzurePrefix)
+      
 - stage: DeployToDev
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
