@@ -43,6 +43,9 @@
         },
         "MemoryPercentageThreshold": {
             "value": "__MemoryPercentageThreshold__"
-        }
+        },
+        "appInsightsInstrumentationKey": {
+          "value": "__appInsightsInstrumentationKey__" 
+      }
     }
 }
