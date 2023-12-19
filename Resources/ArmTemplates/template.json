@@ -58,6 +58,12 @@
         },
         "MemoryPercentageThreshold": {
             "type": "string"
+        },
+        "workspaceName": {
+            "type": "string"
+        },
+        "workspaceResourceGroup": {
+            "type": "string"
         }
     },
     "variables": {
@@ -100,7 +106,8 @@
                 "[concat('hidden-link:', resourceId('Microsoft.Web/sites', variables('MonitoringAppInsightsName')))]": "Resource"
             },
             "properties": {
-                "Application_Type": "web"
+                "Application_Type": "web",
+                "WorkspaceResourceId": "[resourceId(parameters('workspaceResourceGroup'), 'Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]"
             }
         },
         {
